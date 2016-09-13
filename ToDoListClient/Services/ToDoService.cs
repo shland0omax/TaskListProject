@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using ToDoClient.Models;
+using System.Linq;
 
 namespace ToDoClient.Services
 {
@@ -65,8 +66,13 @@ namespace ToDoClient.Services
         /// <param name="item">The todo to create.</param>
         public void CreateItem(ToDoItemViewModel item)
         {
-            httpClient.PostAsJsonAsync(serviceApiUrl + CreateUrl, item)
-                .Result.EnsureSuccessStatusCode();
+            var todos = GetItems(item.UserId);
+            var repeats = todos.Where(t => (t.IsCompleted == item.IsCompleted && t.Name.Trim() == item.Name));
+            if (repeats == null || repeats.Count() == 0)
+            {
+                httpClient.PostAsJsonAsync(serviceApiUrl + CreateUrl, item)
+                    .Result.EnsureSuccessStatusCode();
+            }
         }
 
         /// <summary>

@@ -1,12 +1,15 @@
 ﻿var index = 0;
 
+var deleted = [];
+
 function savetolocal() {
     var model = {};
     model.Name = $("#newName").val();
     model.IsCompleted = $("#newCompleted").is(":checked");
     model.IsDirty = true;
-    model.ToDoId = "l" + (index + 1);
-    localStorage.setItem("l" + (++index),
+    var id = GenerateLocalId();
+    model.ToDoId = id;
+    localStorage.setItem(id,
         JSON.stringify(model));
     console.log("Logged.");
     return model;
@@ -43,6 +46,13 @@ var disableButton = function () {
 var enableButton = function () {
     $('#sync').prop("disabled", false);
     console.log("sync enabled");
+}
+
+function GenerateLocalId() {
+    while (localStorage.hasOwnProperty("l" + index)) {
+        index++;
+    }
+    return "l" + (index++);
 }
 
 $(function () {
