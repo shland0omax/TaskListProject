@@ -67,7 +67,7 @@ namespace ToDoClient.Services
         public void CreateItem(ToDoItemViewModel item)
         {
             var todos = GetItems(item.UserId);
-            var repeats = todos.Where(t => (t.IsCompleted == item.IsCompleted && t.Name.Trim() == item.Name));
+            var repeats = todos.Where(t => (t.Name.Trim() == item.Name.Trim()));
             if (repeats == null || repeats.Count() == 0)
             {
                 httpClient.PostAsJsonAsync(serviceApiUrl + CreateUrl, item)
