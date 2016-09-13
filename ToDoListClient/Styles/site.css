@@ -1,3 +1,11 @@
 ﻿#newName {
     width: 100%
 }
+
+#sync{
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    background-color: grey;
+    cursor: pointer;
+}
